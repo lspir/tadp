@@ -11,13 +11,14 @@ case class Pokemon(experiencia:Int, genero:Genero,energia:Int,energiaMaximaOrigi
   def subirExperiencia(exp:Int):Pokemon={
     var pokemonExperimentado = copy(experiencia=this.experiencia+exp)
     if (this.nivel<pokemonExperimentado.nivel){
-      pokemonExperimentado=this.evolucionarSiCorresponde(pokemonExperimentado);
+      pokemonExperimentado=this.evolucionarSiCorrespondeNivel(pokemonExperimentado);
     }
     return pokemonExperimentado;
   }
   
-  def evolucionarSiCorresponde(pokemon:Pokemon):Pokemon{
-  
+  def evolucionarSiCorrespondeNivel(pokemon:Pokemon):Pokemon= {
+    val especieNueva=especie.evolucionarSiCorrespondeNivel(pokemon)
+  pokemon.copy(especie=especieNueva)
   }
   
 }
