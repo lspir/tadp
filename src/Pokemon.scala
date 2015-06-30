@@ -1,5 +1,7 @@
 case class Pokemon(experiencia:Int, genero:Genero,energia:Int,energiaMaximaOriginal:Int,pesoOriginal:Int,
-    fuerzaOriginal:Int,velocidadOriginal:Int,estado:Estado,especie:Especie) {
+    fuerzaOriginal:Int,velocidadOriginal:Int,estado:Estado,especie:Especie,ataques:List[Ataque]) {
+  
+  type Actividad=Object=>Pokemon;
   
   def nivel:Int=especie.obtenerNivel(experiencia);
   def energiaMaxima=especie.aumentar(energiaMaximaOriginal,nivel);
@@ -19,6 +21,18 @@ case class Pokemon(experiencia:Int, genero:Genero,energia:Int,energiaMaximaOrigi
   def evolucionarSiCorrespondeNivel(pokemon:Pokemon):Pokemon= {
     val especieNueva=especie.evolucionarSiCorrespondeNivel(pokemon)
   pokemon.copy(especie=especieNueva)
+  }
+  
+  
+  val realizarUnAtaque:Actividad={
+      case ataque:Ataque => ataque.aplicarEfecto( this.subirExperiencia(ataque.tipo match{
+        case Dragon => 80
+        case this.especie.tipoPrincipal => 50
+        case this.especie.tipoSecundario => this.genero match{
+          case Macho => 20
+          case Hembra => 40
+        }
+      }))
   }
   
 }
