@@ -1,6 +1,6 @@
 
 case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Int,pesoMaximo:Int,
-    tipoPrincipal:Tipo,tipoSecundario:Tipo=null,evolucion:Option[Evolucion]=None) {
+    tipoPrincipal:Tipo,tipoSecundario:Option[Tipo]=None,evolucion:Option[Evolucion]=None) {
   
   def obtenerExperienciaNivel(nivel:Int):Int= nivel match{
       case 1 => 0
@@ -19,5 +19,12 @@ case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Int,pesoMaximo:
   
   def evolucionarSiCorrespondeNivel(pokemon:Pokemon):Especie={
   evolucion.filter { ev => ev.cumpleCondicionNivel(pokemon) }.map { ev => ev.especie }.getOrElse(this)
+  }
+  
+  def sosDeTipo(tipo:Tipo):Boolean={
+    tipoPrincipal.equals(tipo) || tipoSecundario.contains(tipo)
+  }
+  def perdesContra(tipo:Tipo):Boolean = {
+    tipoPrincipal.perdesContra(tipo) || tipoSecundario.exists{_.perdesContra(tipo)}
   }
 }
