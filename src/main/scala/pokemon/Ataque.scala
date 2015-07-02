@@ -1,3 +1,5 @@
+package pokemon
+
 import scala.util.Try
 
 case class Ataque(tipo:Tipo,maximoInicial:Int,efecto:Option[(Pokemon=>Pokemon)]=None) {

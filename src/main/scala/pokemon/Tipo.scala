@@ -1,3 +1,5 @@
+package pokemon
+
 abstract class Tipo() {
   //FIXME
   def perdesContra(tipo:Tipo):Boolean={true}

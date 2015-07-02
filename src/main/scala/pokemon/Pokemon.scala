@@ -1,3 +1,5 @@
+package pokemon
+
 import scala.util.Try
 
 

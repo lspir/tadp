@@ -1,3 +1,4 @@
+package pokemon
 
 case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Int,pesoMaximo:Int,
     tipoPrincipal:Tipo,tipoSecundario:Option[Tipo]=None,evolucion:Option[Evolucion]=None) {

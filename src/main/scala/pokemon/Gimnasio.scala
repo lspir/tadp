@@ -1,3 +1,5 @@
+package pokemon
+
 import scala.util.Try
 import scala.util.Failure
 
@@ -43,6 +45,13 @@ case object Gimnasio {
       case pokemon:Pokemon if pokemon.especie.sosDeTipo(Agua) => Try(pokemon.copy(velocidadOriginal = pokemon.velocidad + minutos/60, energia = pokemon.energia + minutos).subirExperiencia(200*minutos))
       case pokemon:Pokemon => Try(pokemon.copy(energia = pokemon.energia - minutos).subirExperiencia(200*minutos))
     }
+  }
+  
+  
+  
+  
+  val prueba:Int=>String=>Try[Int]={
+    case i1:Int=>{case s:String=>Try(i1)}
   }
 }
   

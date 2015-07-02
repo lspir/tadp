@@ -1,3 +1,5 @@
+package pokemon
+
 case class Evolucion(especie:Especie,condicion:CondicionEvolucion) {
   
   def cumpleCondicionNivel(pokemon:Pokemon):Boolean={
@@ -8,5 +10,4 @@ case class Evolucion(especie:Especie,condicion:CondicionEvolucion) {
   } 
   
 }
-
 

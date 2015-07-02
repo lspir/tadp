@@ -1,3 +1,5 @@
+package pokemon
+
 
 class CaracteristicasInvalidasException(e: String = "Caracteristicas Invalidas") extends RuntimeException(e)
 

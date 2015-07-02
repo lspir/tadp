@@ -1,3 +1,5 @@
+package pokemon
+
 abstract class Estado {
 }
 

@@ -1,3 +1,5 @@
+package pokemon
+
 abstract class CondicionEvolucion {
   def teCumple(pokemon:Pokemon):Boolean
 }
