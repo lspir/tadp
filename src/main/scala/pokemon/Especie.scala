@@ -3,15 +3,18 @@ package pokemon
 case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Int,pesoMaximo:Int,
     tipoPrincipal:Tipo,tipoSecundario:Option[Tipo]=None,evolucion:Option[Evolucion]=None) {
   
-  def obtenerExperienciaNivel(nivel:Int):Int= nivel match{
+  def obtenerExperienciaParaNivel(nivel:Int): Int= nivel match{
       case 1 => 0
-      case _ => (2 * this.obtenerExperienciaNivel(nivel-1)) + this.resistenciaEvolutiva
+      case _ => (2 * this.obtenerExperienciaParaNivel(nivel-1)) + this.resistenciaEvolutiva
   }
   
     def obtenerNivel(experiencia : Int) : Int = {
     val niveles = (1 to 100).toList
-    niveles.filter { nivel => obtenerExperienciaNivel(nivel)<=experiencia }.last
+    niveles.find { nivel => this.experienceBetween(nivel,experiencia) }.getOrElse(100)
   }
+    def experienceBetween(nivel:Int,experiencia:Int):Boolean={
+      obtenerExperienciaParaNivel(nivel)<=experiencia && experiencia < obtenerExperienciaParaNivel(nivel+1)
+    }
     
   def aumentar(caracteristica:Int,nivel:Int):Int= nivel match{
     case 1 => caracteristica;
