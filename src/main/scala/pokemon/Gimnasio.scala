@@ -22,7 +22,7 @@ case object Gimnasio {
   def realizar[T](actividad:(Pokemon=>Try[Pokemon]),pokemon:Pokemon):Try[Pokemon]={
     pokemon.estado match {
       case e:Dormido => Try(pokemon.copy(estado = e.dormir))
-      case _:KO => Failure(new Exception)
+      case KO => Failure(new Exception)
       case _ => actividad(pokemon)
     }
   }  
@@ -32,8 +32,8 @@ case object Gimnasio {
     case kilos:Int => {
       case pokemon:Pokemon=>pokemon.estado match{
         case _ if pokemon.especie.sosDeTipo(Fantasma) => Failure(new Exception)
-        case _:Paralizado => Try(pokemon.copy(estado=new KO))
-        case _ if kilos>pokemon.fuerza*10 => Try(pokemon.copy(estado=new Paralizado))
+        case Paralizado => Try(pokemon.copy(estado=KO))
+        case _ if kilos>pokemon.fuerza*10 => Try(pokemon.copy(estado=Paralizado))
         case _ if pokemon.especie.sosDeTipo(Pelea)=>Try(pokemon.subirExperiencia(2*kilos))
         case _ => Try(pokemon.subirExperiencia(kilos))
       }
@@ -41,7 +41,7 @@ case object Gimnasio {
   }
   val nadar:Actividad[Int]={
     case minutos:Int => {
-      case pokemon:Pokemon if pokemon.especie.perdesContra(Agua) => Try(pokemon.copy(estado = new KO))
+      case pokemon:Pokemon if pokemon.especie.perdesContra(Agua) => Try(pokemon.copy(estado = KO))
       case pokemon:Pokemon if pokemon.especie.sosDeTipo(Agua) => Try(pokemon.copy(velocidadOriginal = pokemon.velocidad + minutos/60, energia = pokemon.energia + minutos).subirExperiencia(200*minutos))
       case pokemon:Pokemon => Try(pokemon.copy(energia = pokemon.energia - minutos).subirExperiencia(200*minutos))
     }

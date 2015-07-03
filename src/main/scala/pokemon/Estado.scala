@@ -1,19 +1,15 @@
 package pokemon
 
-abstract class Estado {
-}
-
-case class Dormido(turnosRestantes:Int=3) extends Estado{
-  
-  def dormir()={
-    turnosRestantes match{
-      case 1 => Normal
+trait Estado
+case class Dormido(turnosRestantes:Int=3) extends Estado {
+  val dormir:Estado = {
+    turnosRestantes match {
+      case 1 => EstadoNormal;
       case _ => copy(turnosRestantes = turnosRestantes - 1)
     }
-    
   }
 }
-case object Normal extends Estado
-case class Envenenado() extends Estado
-case class Paralizado() extends Estado
-case class KO() extends Estado
+case object EstadoNormal extends Estado
+case object Envenenado extends Estado
+case object Paralizado extends Estado
+case object KO extends Estado
