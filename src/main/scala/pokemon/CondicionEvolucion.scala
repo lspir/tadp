@@ -23,8 +23,8 @@ case object CondicionUsarPiedraLunar extends CondicionEvolucion{
 }
 
 case class CondicionUsarPiedra() extends CondicionEvolucion{
-  def teCumple(pokemon:Pokemon):Tipo=>Boolean={
-    pokemon.especie.tipoPrincipal.eq
+  def teCumple(pokemon:Pokemon):Boolean={
+    true//pokemon.especie.tipoPrincipal.eq
   }
 }
 

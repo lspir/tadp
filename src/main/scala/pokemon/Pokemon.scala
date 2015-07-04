@@ -3,16 +3,27 @@ package pokemon
 import scala.util.Try
 
 
-case class Pokemon(experiencia:Int, genero:Genero,energia:Int,energiaMaximaOriginal:Int,pesoOriginal:Int,
+case class Pokemon(experiencia:Int, genero:Genero,energiaOriginal:Int,energiaMaximaOriginal:Int,pesoOriginal:Int,
     fuerzaOriginal:Int,velocidadOriginal:Int,estado:Estado,especie:Especie,ataques:Map[Ataque,(Int,Int)]) {
   
-    
+  val fuerzaMaxima=100
+  val velocidadMaxima=100
   val nivel:Int=especie.obtenerNivel(experiencia);
   val energiaMaxima=especie.aumentar(energiaMaximaOriginal,nivel);
+  val energia:Int=minimo(energiaOriginal,energiaMaxima)
   val peso=especie.aumentar(pesoOriginal,nivel);
-  val fuerza=especie.aumentar(fuerzaOriginal,nivel);
-  val velocidad=especie.aumentar(velocidadOriginal,nivel);
+  val fuerza=minimo(especie.aumentar(fuerzaOriginal,nivel),fuerzaMaxima);
+  val velocidad=minimo(especie.aumentar(velocidadOriginal,nivel),velocidadMaxima);
+  if (nivel<1 || nivel >100) throw new NivelIncorrectoException
+  if (peso<0 || peso>especie.pesoMaximo) throw new PesoInvalidoException
+  if (fuerza<1) throw new FuerzaInvalidaException
+  if (velocidad<1) throw new VelocidadInvalidaException
+   
   
+  def minimo(n1:Int,n2:Int):Int={
+    if (n1<=n2) n1
+    else n2
+  }
   
   def subirExperiencia(exp:Int):Pokemon={
     var pokemonExperimentado = copy(experiencia=this.experiencia+exp)
@@ -37,4 +48,8 @@ case class Pokemon(experiencia:Int, genero:Genero,energia:Int,energiaMaximaOrigi
   }
   
   
+}
+
+case class Poke(exp:Int){
+  if(exp<0) throw new IllegalArgumentException
 }

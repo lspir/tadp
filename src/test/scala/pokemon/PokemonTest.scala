@@ -7,6 +7,7 @@ import scala.util.Try
 
 
 
+
 class PokemonTest {
   @Test
   def `q`={
@@ -27,4 +28,12 @@ class PokemonTest {
    assertEquals(asd.tail.head("hola").get
    , 2)
   }
+  
+  @Test(expected=classOf[IllegalArgumentException])
+  def `asd`={
+    val aasd=Try(new Poke(-1))
+    assertEquals(classOf[IllegalArgumentException],aasd.get)
+    //assertEquals(5,aasd)
+   }
+  
 }

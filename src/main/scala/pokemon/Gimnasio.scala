@@ -46,8 +46,8 @@ case object Gimnasio {
   val nadar:Actividad[Int]={
     case minutos:Int => {
       case pokemon:Pokemon if pokemon.especie.perdesContra(Agua) => Try(pokemon.copy(estado = KO))
-      case pokemon:Pokemon if pokemon.especie.sosDeTipo(Agua) => Try(pokemon.copy(velocidadOriginal = pokemon.velocidad + minutos/60, energia = pokemon.energia + minutos).subirExperiencia(200*minutos))
-      case pokemon:Pokemon => Try(pokemon.copy(energia = pokemon.energia - minutos).subirExperiencia(200*minutos))
+      case pokemon:Pokemon if pokemon.especie.sosDeTipo(Agua) => Try(pokemon.copy(velocidadOriginal = pokemon.velocidad + minutos/60, energiaOriginal = pokemon.energia + minutos).subirExperiencia(200*minutos))
+      case pokemon:Pokemon => Try(pokemon.copy(energiaOriginal = pokemon.energia - minutos).subirExperiencia(200*minutos))
     }
   }
   
@@ -61,7 +61,7 @@ case object Gimnasio {
    }
    val usarPocion:ActividadSinParametro={
      case pokemon:Pokemon => {
-       Try(pokemon.copy(energia = pokemon.energia + 50))
+       Try(pokemon.copy(energiaOriginal = pokemon.energia + 50))
      }
    }
    val usarAntidoto:ActividadSinParametro={
@@ -93,7 +93,7 @@ case object Gimnasio {
      case piedra:Piedra=>{
        case pokemon:Pokemon => pokemon.especie.evolucion match{
          case Some(ev) => ev.condicion match{
-           case a:CondicionUsarPiedra if (a.teCumple(pokemon)(piedra.tipo)) => Try(pokemon.copy(especie = ev.especie))
+        //   case a:CondicionUsarPiedra if (a.teCumple(pokemon)(piedra.tipo)) => Try(pokemon.copy(especie = ev.especie))
            case CondicionUsarPiedraLunar if (piedra.tipo==Lunar) => Try(pokemon.copy(especie = ev.especie))
          }
          case None => Try(pokemon)
