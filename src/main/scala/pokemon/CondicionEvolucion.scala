@@ -11,7 +11,7 @@ case class SubirDeNivel(nivel:Int) extends CondicionEvolucion{
   }
 }
 
-case class Intercambiar() extends CondicionEvolucion{
+case object Intercambiar extends CondicionEvolucion{
 //  def teCumple(pokemon:Pokemon):Boolean={
 //    true //FIXME
 //  }

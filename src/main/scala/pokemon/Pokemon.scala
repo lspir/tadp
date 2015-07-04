@@ -47,10 +47,7 @@ case class Pokemon(experiencia:Int, genero:Genero,energiaOriginal:Int,energiaMax
     copy(ataques=this.ataques.+((ataque,(ataque.maximoInicial,ataque.maximoInicial))))
   }
   
-  def envenenarSiCorresponde(piedra:Piedra):Pokemon={
-    if (especie.teGana(piedra.tipo)) copy(estado=Envenenado)
-    else this
-  }
+ 
   
 }
 

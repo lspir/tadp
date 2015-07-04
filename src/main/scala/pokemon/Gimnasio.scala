@@ -93,21 +93,21 @@ case object Gimnasio {
      val usarPiedra:Actividad[Piedra]={
      case piedra:Piedra=>{
        case pokemon:Pokemon =>Try(pokemon.especie.evolucion.filter { ev => ev.condicion.teCumple(pokemon,piedra) }.
-                                   fold(pokemon.envenenarSiCorresponde(piedra)){evolucion=>pokemon.copy(especie=evolucion.especie)})
+                                   fold(envenenarSiCorresponde(pokemon,piedra)){evolucion=>pokemon.copy(especie=evolucion.especie)})
      }
    }
    
+     
+   def envenenarSiCorresponde(pokemon:Pokemon,piedra:Piedra):Pokemon={
+    if (pokemon.especie.teGana(piedra.tipo)) pokemon.copy(estado=Envenenado)
+    else pokemon
+  }
    
    
    
    val fingirIntercambio:ActividadSinParametro={
-     case pokemon:Pokemon => pokemon.especie.evolucion match{
-       case Some(ev) => ev.condicion match{
-         case a:Intercambiar => Try(pokemon.copy(especie = ev.especie))
-         case _ => Try(aumentarPesoSegunGenero(pokemon))
-       }
-       case _ => Try(aumentarPesoSegunGenero(pokemon))
-     }  
+     case pokemon:Pokemon => Try(pokemon.especie.evolucion.filter { ev=> ev.condicion==Intercambiar}.
+                             fold(aumentarPesoSegunGenero(pokemon)) {evolucion=>pokemon.copy(especie=evolucion.especie)})  
    }
    val aumentarPesoSegunGenero:Pokemon=>Pokemon = {
      case pokemon:Pokemon => pokemon.copy(pesoOriginal = pokemon.pesoOriginal + (pokemon.genero match{
