@@ -100,8 +100,34 @@ case object Gimnasio {
        }
      }
    }
+   val fingirIntercambio:ActividadSinParametro={
+     case pokemon:Pokemon => pokemon.especie.evolucion match{
+       case Some(ev) => ev.condicion match{
+         case a:Intercambiar => Try(pokemon.copy(especie = ev.especie))
+         case _ => Try(aumentarPesoSegunGenero(pokemon))
+       }
+       case _ => Try(aumentarPesoSegunGenero(pokemon))
+     }  
+   }
+   val aumentarPesoSegunGenero:Pokemon=>Pokemon = {
+     case pokemon:Pokemon => pokemon.copy(pesoOriginal = pokemon.pesoOriginal + (pokemon.genero match{
+       case Macho => +1
+       case Hembra => -10
+     }))
+   }
    
+   //Punto 3
+   type Rutina = List[(Try[Pokemon]=>Try[Pokemon])]
    
+   def ejecutarRutina(rutina:Rutina, pokemon:Pokemon):Try[Pokemon]={
+     rutina.foldLeft(Try(pokemon)){(x, y) => y(x)}
+   }
+   
+   //Punto 4
+   
+   def maximoRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Try[Pokemon]=>Int):Rutina={
+     rutinas.maxBy { x => criterio(ejecutarRutina(x, pokemon)) }
+   }
    
   val prueba:Int=>String=>Try[Int]={
     case i1:Int=>{case s:String=>Try(i1)}
