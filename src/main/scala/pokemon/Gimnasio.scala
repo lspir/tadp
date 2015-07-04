@@ -117,10 +117,10 @@ case object Gimnasio {
    }
    
    //Punto 3
-   type Rutina = List[(Try[Pokemon]=>Try[Pokemon])]
+   type Rutina = (String,List[ActividadSinParametro])
    
-   def ejecutarRutina(rutina:Rutina, pokemon:Pokemon):Try[Pokemon]={
-     rutina.foldLeft(Try(pokemon)){(x, y) => y(x)}
+   def ejecutarRutina(rutina:Rutina, pokemon:Pokemon):Try[Pokemon]=rutina match{
+     case (_,actividades)=>actividades.foldLeft(Try(pokemon)){(tryPokemon, actividad) => tryPokemon.flatMap { poke => actividad(poke) }}
    }
    
    //Punto 4
