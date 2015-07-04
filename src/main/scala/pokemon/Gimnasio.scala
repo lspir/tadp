@@ -3,6 +3,7 @@ package pokemon
 import scala.util.Try
 import scala.util.Failure
 import scala.util.Failure
+import scala.util.Success
 
 case object Gimnasio {
   
@@ -124,14 +125,20 @@ case object Gimnasio {
    }
    
    //Punto 4
+   type Criterio=Pokemon=>Pokemon=>Boolean
    
-   def maximoRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Try[Pokemon]=>Int):Rutina={
-     rutinas.maxBy { x => criterio(ejecutarRutina(x, pokemon)) }
+   def mejorRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Criterio):String={
+     val rutinasValidas = rutinas.filter{rut=>ejecutarRutina(rut, pokemon).isSuccess }
+     val posibleValor= rutinasValidas.sortWith{(left,right)=>criterio(ejecutarRutina(left, pokemon).get)(ejecutarRutina(right, pokemon).get)}.headOption
+     posibleValor.fold(throw new NoExisteRutinaApropiadaException){_._1}
    }
    
+      
   val prueba:Int=>String=>Try[Int]={
     case i1:Int=>{case s:String=>Try(i1)}
   }
+  
+   
 }
   
 
