@@ -89,17 +89,17 @@ case object Gimnasio {
      case p:Pokemon => Try((if(p.estado==EstadoNormal && p.energia*2>p.energiaMaxima) {p.copy(estado = new Dormido)} else {p}).copy(ataques = p.ataques.mapValues {case (pa, pm)=>(pm, pm)}))
      }
    
-   val usarPiedra:Actividad[Piedra]={
+   
+     val usarPiedra:Actividad[Piedra]={
      case piedra:Piedra=>{
-       case pokemon:Pokemon => pokemon.especie.evolucion match{
-         case Some(ev) => ev.condicion match{
-        //   case a:CondicionUsarPiedra if (a.teCumple(pokemon)(piedra.tipo)) => Try(pokemon.copy(especie = ev.especie))
-           case CondicionUsarPiedraLunar if (piedra.tipo==Lunar) => Try(pokemon.copy(especie = ev.especie))
-         }
-         case None => Try(pokemon)
-       }
+       case pokemon:Pokemon =>Try(pokemon.especie.evolucion.filter { ev => ev.condicion.teCumple(pokemon,piedra) }.
+                                   fold(pokemon.envenenarSiCorresponde(piedra)){evolucion=>pokemon.copy(especie=evolucion.especie)})
      }
    }
+   
+   
+   
+   
    val fingirIntercambio:ActividadSinParametro={
      case pokemon:Pokemon => pokemon.especie.evolucion match{
        case Some(ev) => ev.condicion match{
