@@ -31,4 +31,8 @@ case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Int,pesoMaximo:
   def perdesContra(tipo:Tipo):Boolean = {
     tipoPrincipal.perdesContra(tipo) || tipoSecundario.exists{_.perdesContra(tipo)}
   }
+  def sosAfin(tipo:Tipo):Boolean={
+    (tipo==tipoPrincipal || tipo == tipoSecundario || tipo == TipoNormal)
+  }
+  
 }

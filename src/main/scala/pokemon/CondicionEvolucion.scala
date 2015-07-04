@@ -4,20 +4,28 @@ abstract class CondicionEvolucion {
   def teCumple(pokemon:Pokemon):Boolean
 }
 
-case class subirDeNivel(nivel:Int) extends CondicionEvolucion{
+case class SubirDeNivel(nivel:Int) extends CondicionEvolucion{
   def teCumple(pokemon:Pokemon):Boolean={
     pokemon.nivel>=nivel
   }
 }
 
-case class intercambiar() extends CondicionEvolucion{
+case class Intercambiar() extends CondicionEvolucion{
   def teCumple(pokemon:Pokemon):Boolean={
     true //FIXME
   }
 }
 
-case class usarPiedra() extends CondicionEvolucion{
+case object CondicionUsarPiedraLunar extends CondicionEvolucion{
   def teCumple(pokemon:Pokemon):Boolean={
-    true //FIXME
+    true
   }
 }
+
+case class CondicionUsarPiedra() extends CondicionEvolucion{
+  def teCumple(pokemon:Pokemon):Tipo=>Boolean={
+    pokemon.especie.tipoPrincipal.eq
+  }
+}
+
+case class Piedra(tipo:Tipo)

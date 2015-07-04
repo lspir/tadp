@@ -24,3 +24,4 @@ case object Veneno extends Tipo(List(Planta))
 case object Dragon extends Tipo{
   val leGanaA = Dragon
 }
+case object Lunar extends Tipo
