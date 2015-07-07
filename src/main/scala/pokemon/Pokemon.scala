@@ -19,7 +19,6 @@ case class Pokemon(experiencia:Int, genero:Genero,energiaOriginal:Int,energiaMax
   if (fuerza<1) throw new FuerzaInvalidaException
   if (velocidad<1) throw new VelocidadInvalidaException
    
-  
   def minimo(n1:Int,n2:Int):Int={
     if (n1<=n2) n1
     else n2
@@ -49,8 +48,4 @@ case class Pokemon(experiencia:Int, genero:Genero,energiaOriginal:Int,energiaMax
   
  
   
-}
-
-case class Poke(exp:Int){
-  if(exp<0) throw new IllegalArgumentException
 }

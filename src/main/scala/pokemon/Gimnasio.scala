@@ -7,8 +7,13 @@ import scala.util.Success
 
 case object Gimnasio {
   
-  type Actividad[T]=T=>Pokemon=>Try[Pokemon];
+  type Actividad= Pokemon=>Try[Pokemon];
   type ActividadSinParametro=Pokemon=>Try[Pokemon];
+  
+  def atacarCon(a:Ataque): Try[Pokemon] = null
+  
+  val a: Actividad = _.atacarCon(null)
+  
   
     val realizarUnAtaque:Actividad[Ataque]={
       case ataque:Ataque => {
@@ -24,7 +29,7 @@ case object Gimnasio {
    }
 
  
-  def realizar[T](actividad:(Pokemon=>Try[Pokemon]),pokemon:Pokemon):Try[Pokemon]={
+  def realizar(actividad:(Pokemon=>Try[Pokemon]),pokemon:Pokemon):Try[Pokemon]={
     pokemon.estado match {
       case e:Dormido => Try(pokemon.copy(estado = e.dormir))
       case KO => Failure(new Exception)
@@ -84,7 +89,7 @@ case object Gimnasio {
      case p:Pokemon => Try(p.copy(velocidadOriginal = p.velocidadOriginal + 5))
    }
    val comerZinc:ActividadSinParametro={
-     case p:Pokemon => Try(p.copy(ataques = p.ataques.mapValues{case (num, a)=>(num+2, a)}))
+     case p:Pokemon => Try(p.copy(ataques = p.ataques.mapValues{case (num, a)=>if (num+2>a) (a, a) else (num+2, a)}))
    }
    val descansar:ActividadSinParametro={
      case p:Pokemon => Try((if(p.estado==EstadoNormal && p.energia*2>p.energiaMaxima) {p.copy(estado = new Dormido)} else {p}).copy(ataques = p.ataques.mapValues {case (pa, pm)=>(pm, pm)}))
@@ -121,24 +126,19 @@ case object Gimnasio {
    type Rutina = (String,List[ActividadSinParametro])
    
    def ejecutarRutina(rutina:Rutina, pokemon:Pokemon):Try[Pokemon]=rutina match{
-     case (_,actividades)=>actividades.foldLeft(Try(pokemon)){(tryPokemon, actividad) => tryPokemon.flatMap { poke => actividad(poke) }}
+     case (_,actividades)=>actividades.foldLeft(Try(pokemon)){(tryPokemon, actividad) => tryPokemon.flatMap { poke => realizar(actividad,poke) }}
    }
    
    //Punto 4
    type Criterio=Pokemon=>Pokemon=>Boolean
    
-   def mejorRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Criterio):String={
+   def mejorRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Criterio)={
      val rutinasValidas = rutinas.filter{rut=>ejecutarRutina(rut, pokemon).isSuccess }
      val posibleValor= rutinasValidas.sortWith{(left,right)=>criterio(ejecutarRutina(left, pokemon).get)(ejecutarRutina(right, pokemon).get)}.headOption
-     posibleValor.fold(throw new NoExisteRutinaApropiadaException){_._1}
+     posibleValor//.fold(throw new NoExisteRutinaApropiadaException){_._1}
    }
    
-      
-  val prueba:Int=>String=>Try[Int]={
-    case i1:Int=>{case s:String=>Try(i1)}
-  }
-  
-   
+        
 }
   
 
