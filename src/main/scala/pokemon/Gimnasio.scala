@@ -7,12 +7,8 @@ import scala.util.Success
 
 case object Gimnasio {
   
-  type Actividad= Pokemon=>Try[Pokemon];
+  type Actividad[T]= T=> Pokemon=>Try[Pokemon];
   type ActividadSinParametro=Pokemon=>Try[Pokemon];
-  
-  def atacarCon(a:Ataque): Try[Pokemon] = null
-  
-  val a: Actividad = _.atacarCon(null)
   
   
     val realizarUnAtaque:Actividad[Ataque]={
@@ -31,7 +27,7 @@ case object Gimnasio {
  
   def realizar(actividad:(Pokemon=>Try[Pokemon]),pokemon:Pokemon):Try[Pokemon]={
     pokemon.estado match {
-      case e:Dormido => Try(pokemon.copy(estado = e.dormir))
+      case e:Dormido => Try(pokemon.copy(estado = e.verificacionTurnosRestantes))
       case KO => Failure(new Exception)
       case _ => actividad(pokemon)
     }
@@ -132,16 +128,11 @@ case object Gimnasio {
    //Punto 4
    type Criterio=Pokemon=>Pokemon=>Boolean
    
-   def mejorRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Criterio)={
+   def mejorRutinaSegunCriterio(rutinas:List[Rutina], pokemon:Pokemon, criterio:Criterio):Option[String]={
      val rutinasValidas = rutinas.filter{rut=>ejecutarRutina(rut, pokemon).isSuccess }
      val posibleValor= rutinasValidas.sortWith{(left,right)=>criterio(ejecutarRutina(left, pokemon).get)(ejecutarRutina(right, pokemon).get)}.headOption
-     posibleValor//.fold(throw new NoExisteRutinaApropiadaException){_._1}
+     posibleValor.map {_._1}
    }
    
         
 }
-  
-
-
-
-//Gimnasio.realizar(actividad(new Ataque)(pokemon))

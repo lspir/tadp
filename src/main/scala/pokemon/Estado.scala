@@ -2,7 +2,7 @@ package pokemon
 
 trait Estado
 case class Dormido(turnosRestantes:Int=3) extends Estado {
-  val dormir:Estado = {
+  val verificacionTurnosRestantes:Estado = {
     turnosRestantes match {
       case 1 => EstadoNormal;
       case _ => copy(turnosRestantes = turnosRestantes - 1)
