@@ -6,6 +6,8 @@ import org.junit.Ignore
 import scala.util.Try
 import scala.util.Success
 import scala.util.Success
+import sun.security.jca.GetInstance.Instance
+import org.junit.Assert
 
 
 
@@ -29,9 +31,8 @@ class PokemonTest {
     val charmeleonEvolucionado=charmander.subirExperiencia(charmander.especie.obtenerExperienciaParaNivel(16))
     assertEquals(Fixture.charmeleonEspecie, charmeleonEvolucionado.especie)
 //    val charizardEvolucionado=charmeleonEvolucionado.subirExperiencia(charmeleonEvolucionado.especie.obtenerExperienciaParaNivel(36))
-//    assertEquals(36,charizardEvolucionado.nivel) // FIXME fuera de rango INT
-    //assertEquals(Fixture.charmeleonEspecie.evolucion.get.especie, charizardEvolucionado.especie)
-   
+//    assertEquals(36,charizardEvolucionado.nivel)
+//    assertEquals(Fixture.charmeleonEspecie.evolucion.get.especie, charizardEvolucionado.especie)
   }
   
 }

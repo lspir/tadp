@@ -28,14 +28,14 @@ class AtaqueTest {
   def `Realizar un Ataque, si el ataque es del tipo Dragon el pokemon gana 80P de experiencias`={
    val ataque=new Ataque(Dragon,30)
    val pokemonFuego=Fixture.pokemonFuego.aprende(ataque)
-   val pokemonExperimentado=Gimnasio.realizar(Gimnasio.realizarUnAtaque(ataque), pokemonFuego)
+   val pokemonExperimentado=pokemonFuego.realizar({_.realizarUnAtaque(ataque)})
    Assert.assertEquals(pokemonFuego.experiencia+80, pokemonExperimentado.get.experiencia)
    }
   @Test
   def `Realizar un Ataque, si es del Tipo Principal del Pokemon gana 50p de experiencia`={
     val ataque=Fixture.ataqueElectrico
     val pikachu=Fixture.pikachu.aprende(ataque)
-    val pokemonExperimentado=Gimnasio.realizar(Gimnasio.realizarUnAtaque(ataque), pikachu)
+    val pokemonExperimentado=pikachu.realizar({_.realizarUnAtaque(ataque)})
     Assert.assertEquals(pikachu.experiencia+50, pokemonExperimentado.get.experiencia)
   }
 //  @Test

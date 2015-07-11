@@ -8,8 +8,8 @@ case object Fixture {
   
   val pikachuEspecie=new Especie(10,100,500, Electrico)
   
-  val charizardEspecie= new Especie(20,1,200, Fuego)
-  val charmeleonEspecie=new Especie(15,2,150, Fuego,evolucion=Some(new Evolucion(charizardEspecie,new SubirDeNivel(36))))
+  val charizardEspecie= new Especie(20,1,350, Fuego)
+  val charmeleonEspecie=new Especie(15,2,350, Fuego,evolucion=Some(new Evolucion(charizardEspecie,new SubirDeNivel(36))))
   val charmanderEspecie=new Especie(10,350,100, Fuego,evolucion=Some(new Evolucion(charmeleonEspecie,new SubirDeNivel(16))))
   val charmander= new Pokemon(0,Macho,1,100,0,1,1,EstadoNormal,charmanderEspecie,Map())
 

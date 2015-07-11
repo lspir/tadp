@@ -1,31 +1,27 @@
 package pokemon
 
 trait CondicionEvolucion {
-  def teCumple(pokemon:Pokemon):Boolean={false}
-  def teCumple(pokemon:Pokemon,piedra:Piedra):Boolean={false}
+  def teCumple(pokemon:Pokemon,piedra:Option[Piedra]=None):Boolean={false}
 }
 
 case class SubirDeNivel(nivel:Int) extends CondicionEvolucion{
-  override def teCumple(pokemon:Pokemon):Boolean={
-    pokemon.nivel>=nivel
+  override def teCumple(pokemon:Pokemon,piedra:Option[Piedra]):Boolean={
+    piedra.isEmpty && pokemon.nivel>=nivel
   }
 }
 
 case object Intercambiar extends CondicionEvolucion{
-//  def teCumple(pokemon:Pokemon):Boolean={
-//    true //FIXME
-//  }
 }
 
 case object CondicionUsarPiedraLunar extends CondicionEvolucion{
-  override def teCumple(pokemon:Pokemon,piedra:Piedra):Boolean={
-    piedra.tipo.equals(Lunar)
+  override def teCumple(pokemon:Pokemon,piedra:Option[Piedra]):Boolean={
+    piedra.exists { p => p.tipo.equals(Lunar) }
   }
 }
 
 case class CondicionUsarPiedra() extends CondicionEvolucion{
-  override def teCumple(pokemon:Pokemon,piedra:Piedra):Boolean={
-    piedra.tipo.equals(pokemon.especie.tipoPrincipal)
+  override def teCumple(pokemon:Pokemon,piedra:Option[Piedra]):Boolean={
+    piedra.exists { p => p.tipo.equals(pokemon.especie.tipoPrincipal) }
   }
 }
 

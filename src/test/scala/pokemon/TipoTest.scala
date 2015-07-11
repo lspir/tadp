@@ -10,4 +10,6 @@ class TipoTest {
     Assert.assertTrue(Psiquico.ganasContra(Veneno))
     Assert.assertTrue(Psiquico.perdesContra(Fantasma))
   }
+  
+  
 }
