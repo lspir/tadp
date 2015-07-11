@@ -62,7 +62,7 @@ case class Pokemon(experiencia:Long, genero:Genero,energiaOriginal:Int,energiaMa
       if (this.ataques.contains(ataque)) {Try(this.usarAtaque(ataque).subirExperiencia(ataque.tipo match{
           case Dragon => 80
           case this.especie.tipoPrincipal => 50
-          case this.especie.tipoSecundario => this.genero match{
+          case _:Tipo if this.especie.tipoSecundario.exists {_.equals(ataque.tipo)} => this.genero match{
             case Macho => 20
             case Hembra => 40
           } 

@@ -38,11 +38,19 @@ class AtaqueTest {
     val pokemonExperimentado=pikachu.realizar({_.realizarUnAtaque(ataque)})
     Assert.assertEquals(pikachu.experiencia+50, pokemonExperimentado.get.experiencia)
   }
-//  @Test
-//  def `Realizar un Ataque, si es del Tipo Secundario del Pokemon y es Macho gana 40p de experiencia`={
-//    val ataque=Fixture.ataqueVolador
-//    val zapdos=Fixture.zapdos.aprende(ataque)
-//    val pokemonExperimentado=Gimnasio.realizar(Gimnasio.realizarUnAtaque(ataque), zapdos)
-//    Assert.assertEquals(zapdos.experiencia+40, pokemonExperimentado.get.experiencia)
-//  }
+  @Test
+  def `Realizar un Ataque, si es del Tipo Secundario del Pokemon y es Macho gana 20p de experiencia`={
+    val ataque=Fixture.ataqueVolador
+    val zapdos=Fixture.zapdos.aprende(ataque)
+    val pokemonExperimentado=zapdos.realizar({_.realizarUnAtaque(ataque)})
+    Assert.assertEquals(zapdos.experiencia+20, pokemonExperimentado.get.experiencia)
+  }
+  
+    @Test
+  def `Realizar un Ataque, si es del Tipo Secundario del Pokemon y es Hembra gana 40p de experiencia`={
+    val ataque=Fixture.ataqueVolador
+    val zapdos=Fixture.zapdosHembra.aprende(ataque)
+    val pokemonExperimentado=zapdos.realizar({_.realizarUnAtaque(ataque)})
+    Assert.assertEquals(zapdos.experiencia+40, pokemonExperimentado.get.experiencia)
+  }
 }

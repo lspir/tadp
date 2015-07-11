@@ -5,6 +5,7 @@ import scala.util.Try
 case object Fixture {
   val zapdosEspecie=new Especie(10,100,500, Electrico,Some( Volador))
   val zapdos=new Pokemon(0,Macho,1,100,0,1,1,EstadoNormal,zapdosEspecie,Map())
+  val zapdosHembra=new Pokemon(0,Hembra,1,100,0,1,1,EstadoNormal,zapdosEspecie,Map())
   
   val pikachuEspecie=new Especie(10,100,500, Electrico)
   
@@ -19,8 +20,10 @@ case object Fixture {
   val machopEspecie=new Especie(10,30,100, Tierra,evolucion=Some(new Evolucion(machokeEspecie,new SubirDeNivel(28))))
   
   val pokemonFuego= new Pokemon(0,Macho,1,100,0,1,1,EstadoNormal,new Especie(10,10,100, Fuego),Map())
+  val pokemonFantasma = new Pokemon(0,Macho,1,100,0,1,1,EstadoNormal,new Especie(10,10,100, Fantasma),Map())
+  val pokemonPelea = new Pokemon(0,Macho,1,100,0,1,1,EstadoNormal,new Especie(10,10,100, Pelea),Map())
   
-  
+  val ataqueDragon=new Ataque(Dragon,30)
   val mordida=new Ataque( TipoNormal,30)
   val efectoReposar:Pokemon=>Pokemon={case p:Pokemon=>p.copy(energiaOriginal=p.energiaMaxima,estado=new Dormido())}
   val reposar=new Ataque( TipoNormal,30,Some(efectoReposar))
@@ -31,4 +34,7 @@ case object Fixture {
   val ataqueElectrico= new Ataque( Electrico,35)
   val ataqueVolador= new Ataque( Volador,5)
   
+  val criterioMayorExperiencia:(Pokemon=>Pokemon=>Boolean)={case p:Pokemon =>{case p2:Pokemon=> p.experiencia>p2.experiencia}}
+  val rutinaRealizarAtaque:(String,List[Pokemon=>Try[Pokemon]])=("RutinaAtaque",List({_.realizarUnAtaque(ataqueDragon)}))
+  val rutinaAtaquePesas10Kilos:(String,List[Pokemon=>Try[Pokemon]])=("RutinaAtaquePesas",List({_.realizarUnAtaque(ataqueDragon)},{_.levantarPesas(10)}))
 }
