@@ -34,7 +34,7 @@ case class Especie(porcentajeIncremento:Int,resistenciaEvolutiva:Long,pesoMaximo
     tipoPrincipal.perdesContra(tipo) || tipoSecundario.exists{_.perdesContra(tipo)}
   }
   def sosAfin(tipo:Tipo):Boolean={
-    (tipo==tipoPrincipal || tipo == tipoSecundario.getOrElse(tipo) || tipo == TipoNormal)
+    (tipo==tipoPrincipal || tipoSecundario.contains(tipo) || tipo == TipoNormal)
   }
   def teGana(tipo:Tipo):Boolean={
     tipoPrincipal.perdesContra(tipo) || tipoSecundario.exists { _.perdesContra(tipo)}
